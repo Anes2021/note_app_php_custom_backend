@@ -1,15 +1,16 @@
-// ignore_for_file: await_only_futures
+// ignore_for_file: await_only_futures, use_build_context_synchronously
 
-import 'dart:convert';
 import 'dart:developer';
 
+import 'package:cherry_toast/cherry_toast.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_notes_app_with_php_custom_backend/api/api_links.dart';
 import 'package:flutter_notes_app_with_php_custom_backend/api/crud.dart';
 import 'package:flutter_notes_app_with_php_custom_backend/auth/login_screen.dart';
+import 'package:flutter_notes_app_with_php_custom_backend/helpers/app_colors.dart';
 import 'package:flutter_notes_app_with_php_custom_backend/widgets/custom_text_field.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
-import 'package:http/http.dart' as http;
 
 class SigninScreen extends StatefulWidget {
   const SigninScreen({super.key});
@@ -127,35 +128,55 @@ class _SigninScreenState extends State<SigninScreen> {
   }
 
   Future<void> signUp() async {
-    try {
-      final response = await http.post(
-        Uri.parse('http://10.0.2.2/myfirstphprestapi/auth/signup.php'),
-        body: {
-          "user_name": nameController.text,
-          "user_email": emailController.text,
-          "user_pass": passwordController.text,
-        },
-      );
+    //valoidationµ
 
-      if (response.statusCode == 200) {
-        try {
-          final Map<String, dynamic> responseBody = jsonDecode(response.body);
-          if (responseBody['status'] == "successful") {
-            log("Sign-up completed successfully.");
-            // Navigate to the next screen or show a success message
-          } else {
-            log("Sign-up failed: ${responseBody['message']}");
-            // Show an error message to the user
-          }
-        } catch (e) {
-          log("Error parsing response: $e");
-          // Handle the error, for example by showing a generic error message
+    if (nameController.text.trim().isEmpty ||
+        emailController.text.trim().isEmpty ||
+        passwordController.text.trim().isEmpty) {
+      CherryToast.error(
+        description: Text(
+          "please fill all fields to complete signup operation",
+          style: Theme.of(context)
+              .textTheme
+              .bodySmall
+              ?.copyWith(color: AppColors.backgroundColorGrey03),
+        ),
+      ).show(context);
+    } else {
+      try {
+        var response = await _crud.postRequest(linkSignUp, {
+          'user_name': nameController.text,
+          'user_email': emailController.text,
+          'user_pass': passwordController.text
+        });
+        if (response != null && response['status'] == 'successful') {
+          CherryToast.success(
+            description: Text(
+              "You have successfully Sign-Up, Now login to confirm your informations.",
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: AppColors.backgroundColorGrey03,
+                  ),
+            ),
+          ).show(context);
+
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+              builder: (context) => const LoginScreen(),
+            ),
+          );
+        } else {
+          CherryToast.error(
+            description: Text(
+              "Incorrect email or password, Please try again.",
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: AppColors.backgroundColorGrey03,
+                  ),
+            ),
+          ).show(context);
         }
-      } else {
-        log("Sign-up failed: Server error with status code: ${response.statusCode}");
+      } catch (e) {
+        log("An error occurred: $e");
       }
-    } catch (e) {
-      log("An error occurred: $e");
     }
   }
 }

@@ -27,10 +27,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   Text(
                     "Note App",
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyLarge
-                        ?.copyWith(fontSize: 25),
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                          fontSize: 25,
+                        ),
                   ),
                 ],
               ),

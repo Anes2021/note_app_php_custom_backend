@@ -31,25 +31,22 @@ class _DistributorState extends State<Distributor> {
                 color: Colors.orange,
               ),
             ),
-            //! this will change to black in light mode
             bodyMedium: GoogleFonts.aBeeZee(
               textStyle: TextStyle(
                 fontSize: 16.sp,
                 fontWeight: FontWeight.bold,
-                color: AppColors.backgroundColorGrey02,
               ),
             ),
             labelMedium: GoogleFonts.aBeeZee(
               textStyle: TextStyle(
-                color: AppColors.backgroundColorGrey01,
                 fontSize: 15.sp,
                 fontWeight: FontWeight.bold,
               ),
             ),
             bodySmall: GoogleFonts.aBeeZee(
               textStyle: TextStyle(
-                color: AppColors.backgroundColorGrey01,
                 fontSize: 12.sp,
+                fontWeight: FontWeight.bold,
               ),
             ),
             displaySmall: GoogleFonts.aBeeZee(

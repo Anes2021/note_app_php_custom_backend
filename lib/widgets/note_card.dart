@@ -42,13 +42,19 @@ class _NoteCardState extends State<NoteCard> {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       "Note Title Note Title Note Title Note Title",
-                      style: Theme.of(context).textTheme.bodyMedium,
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyMedium
+                          ?.copyWith(color: AppColors.backgroundColorGrey02),
                     ),
                     Text(
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       "note description note description note description note description note description note description note description",
-                      style: Theme.of(context).textTheme.labelMedium,
+                      style: Theme.of(context)
+                          .textTheme
+                          .labelMedium
+                          ?.copyWith(color: AppColors.backgroundColorGrey03),
                     ),
                   ],
                 ),
