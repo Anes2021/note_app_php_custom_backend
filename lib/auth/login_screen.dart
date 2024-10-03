@@ -36,7 +36,7 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ).show(context);
     } else {
-      var response = await crud.postRequest(linkLogin, {
+      var response = await crud.postRequestAndCreateToken(linkLogin, {
         "user_pass": passwordController.text.trim(),
         "user_email": emailController.text.trim(),
       });
